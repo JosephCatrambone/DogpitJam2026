@@ -8,7 +8,7 @@ enum SpeciesTrait {
 	SNEK = 1 << 4,
 	EEPY = 1 << 5,
 	ZOOMY = 1 << 6,
-	SMOK = 1 << 7,
+	SMOL = 1 << 7,
 	POTAT = 1 << 8,
 	LEGGY = 1 << 9,
 	CHONK = 1 << 10,
