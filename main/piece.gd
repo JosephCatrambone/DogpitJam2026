@@ -1,26 +1,31 @@
 class_name Piece extends Node2D
 
-enum Speed { EEPY, ZOOMY }
-enum Size { SMOL, CHONK }
-enum Species { CAT, DOG, BIRB, SNEK }
+enum SpeciesTrait {
+	VOID = 1 << 0,
+	CAT = 1 << 1,
+	DOG = 1 << 2, 
+	BIRB = 1 << 3, 
+	SNEK = 1 << 4,
+	EEPY = 1 << 5,
+	ZOOMY = 1 << 6,
+	SMOK = 1 << 7,
+	POTAT = 1 << 8,
+	LEGGY = 1 << 9,
+	CHONK = 1 << 10,
+	BIGGO = 1 << 11,
+	ANGY = 1 << 12,
+	DERPY = 1 << 13,
+	CUDDLY = 1 << 14,
+}
 
-var animal_data: int
+var traits: int
 
-func new(t: int):
-	self.animal_type = t
+func set_trait(t: SpeciesTrait, value: bool):
+	var setter = int(t)
+	if value:
+		self.traits = (self.traits | setter)
+	else:
+		self.traits = (self.traits & ~setter)
 
-func _get_flag(idx: int) -> int:
-	assert(idx <= 3)
-	return (self.animal_type >> idx) & 0x1
-
-func get_speed() -> Speed:
-	return self._get_flag(0)
-
-func get_size() -> Size:
-	return self._get_flag(1)
-
-func get_species_a() -> Species:
-	return self._get_flag(2)
-
-func get_species_b() -> Species:
-	return self._get_flag(4)
+func get_trait(t: SpeciesTrait):
+	return bool(self.traits & int(t))

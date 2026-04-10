@@ -26,6 +26,10 @@ window/size/viewport_height=360
 window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=2
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
