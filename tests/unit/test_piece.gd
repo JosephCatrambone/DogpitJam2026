@@ -12,17 +12,16 @@ func test_multiset():
 	assert_true(p.get_trait(Piece.SpeciesTrait.CAT))
 	assert_true(p.get_trait(Piece.SpeciesTrait.DOG))
 	assert_false(p.get_trait(Piece.SpeciesTrait.SNEK))
+	p.queue_free()
 
 func test_clear():
 	var p: Piece = Piece.new()
 	p.set_trait(Piece.SpeciesTrait.CAT, true)
 	p.set_trait(Piece.SpeciesTrait.CAT, false)
 	assert_false(p.get_trait(Piece.SpeciesTrait.CAT))
+	p.queue_free()
 
 func test_default():
 	var p: Piece = Piece.new()
 	assert_false(p.get_trait(Piece.SpeciesTrait.CAT))
-
-#func test_fails():
-#	# this test will fail because those strings are not equal
-#	assert_eq('hello', 'goodbye')
+	p.queue_free()

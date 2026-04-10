@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cs3aub1kj8t2f"]
 
-[ext_resource type="Script" uid="uid://bs524qy538lvq" path="res://scene_manager/loading_screen.gd" id="1_b0lda"]
+[ext_resource type="Script" uid="uid://bs524qy538lvq" path="res://scene_manager/loading_screen.gd" id="1_jpucy"]
 
 [sub_resource type="Animation" id="Animation_b0lda"]
 resource_name = "FadeToBlack"
@@ -13,10 +13,27 @@ tracks/0/path = NodePath("ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.36666667),
+"times": PackedFloat32Array(0.033333335, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jpucy"]
+resource_name = "FadeToWhite"
+length = 0.40000296
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_xba3t"]
@@ -37,17 +54,23 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_opqv7"]
 _data = {
 &"FadeToBlack": SubResource("Animation_b0lda"),
+&"FadeToWhite": SubResource("Animation_jpucy"),
 &"RESET": SubResource("Animation_xba3t")
 }
 
 [node name="LoadingScreen" type="Control" unique_id=1552525679]
+process_mode = 3
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_b0lda")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_jpucy")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1478879167]
 layout_mode = 1
