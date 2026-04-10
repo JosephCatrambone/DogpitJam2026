@@ -24,8 +24,8 @@ class SceneLoadOperation:
 
 func swap_scenes(
 		scene_to_load: String, 
-		data_for_new_scene, 
-		transition_type: LoadingScreen.SceneTransitionTypes, 
+		data_for_new_scene: Variant = null, 
+		transition_type: LoadingScreen.SceneTransitionTypes = LoadingScreen.SceneTransitionTypes.FADE_TO_BLACK, 
 		load_into: Node = null, 
 		scene_to_unload: Node = null, 
 		unload_previous: bool = false,
@@ -112,3 +112,4 @@ func _finish_loading(new_scene_instance, load_op: SceneLoadOperation):
 	if new_scene_instance.has_method("start_scene"): 
 		new_scene_instance.start_scene()
 	
+	self.load_finished.emit(new_scene_instance)
