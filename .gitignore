@@ -1,4 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
+# This is explicitly discouraged by the maintainers of Godot: https://godotengine.org/article/uid-changes-coming-to-godot-4-4/
+# I don't care.
 *.uid
 /android/
