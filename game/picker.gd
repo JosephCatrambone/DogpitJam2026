@@ -1,8 +1,8 @@
-class_name Picker extends Node2D
+class_name Picker extends Control
 
 signal picked(creature: Piece)
 
-@onready var btn: Button = $Control/Button
+@onready var btn: Button = $VBoxContainer/Button
 var picking_active: bool = false
 
 func _ready() -> void:
