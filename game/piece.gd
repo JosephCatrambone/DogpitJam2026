@@ -18,6 +18,8 @@ enum SpeciesTrait {
 	CUDDLY = 1 << 14,
 }
 
+# Can also do combos like "CatDog:3"
+@export_flags("Cat:1", "Dog:2", "Birb:4", "Snek:8", "Eepy:16", "Zoomy:32", "Smol:64", "Potat:128", "Leggy:256", "Chonk:512", "Biggo:1024", "Angy:2048", "Derpy:4096", "Cuddly:8192")
 var traits: int
 
 func set_trait(t: SpeciesTrait, value: bool):
