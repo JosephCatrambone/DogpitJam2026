@@ -13,10 +13,12 @@ var player_names: PackedStringArray = []
 var current_player: int = 0
 
 func _ready() -> void:
-	self.single_cycle_finished.connect(self.run_game_loop)
+	pass
 
 func init_scene(data: Variant):
-	pass
+	if data == null:
+		pass
+	self.single_cycle_finished.connect(self.run_game_loop)
 
 func start_scene():
 	self.board_state = BoardState.new(4, 4)
@@ -37,17 +39,17 @@ func run_game_loop():
 	self.picker.request_pick()
 	var creature = await self.picker.picked
 	self.switch_player()
-	print("Old player picked ", creature, " - current player now ", self.current_player)
+
 	self.placer.request_place(creature)
 	var placement_x_y = await self.placer.placed
-	print("Placed: ", placement_x_y)
+
 	self.board_state.set_traits_xy(placement_x_y[0], placement_x_y[1], placement_x_y[2])
 	if self.game_finished():
 		return
 	self.picker.request_pick()
 	creature = await self.picker.picked
 	self.switch_player()
-	print("Current player: ", self.current_player)
+
 	self.placer.request_place(creature)
 	placement_x_y = await self.placer.placed
 	self.board_state.set_traits_xy(placement_x_y[0], placement_x_y[1], placement_x_y[2])

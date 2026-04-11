@@ -1,6 +1,6 @@
 class_name Placer extends Node2D
 
-var creature_to_place: Piece
+var creature_to_place: Creature
 @onready var btn: Button = $Control/Button
 
 func _ready() -> void:
@@ -19,6 +19,6 @@ func set_board_size(width: int, height: int):
 signal placed(x: int, y: int, traits: int)
 
 ## Call with a creature to place and this will begin the process, emitting 'placed' when finished.
-func request_place(creature: Piece):
+func request_place(creature: Creature):
 	self.creature_to_place = creature
 	self.btn.disabled = false

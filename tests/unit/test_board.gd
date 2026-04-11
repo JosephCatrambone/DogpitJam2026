@@ -10,8 +10,8 @@ func test_no_wins_when_empty():
 
 func test_basic_row_win():
 	var b: BoardState = BoardState.new(5, 5)
-	var cat: Piece = Piece.new()
-	cat.set_trait(Piece.SpeciesTrait.CAT, true)
+	var cat: Creature = Creature.new()
+	cat.set_trait(Creature.SpeciesTrait.CAT, true)
 	b.set_traits_xy(0, 1, cat.traits)
 	b.set_traits_xy(1, 1, cat.traits)
 	assert_eq(b.check_row_wins(), 1)
@@ -23,8 +23,8 @@ func test_basic_row_win():
 
 func test_basic_col_win():
 	var b: BoardState = BoardState.new(5, 5)
-	var cat: Piece = Piece.new()
-	cat.set_trait(Piece.SpeciesTrait.CAT, true)
+	var cat: Creature = Creature.new()
+	cat.set_trait(Creature.SpeciesTrait.CAT, true)
 	b.set_traits_xy(2, 0, cat.traits)
 	b.set_traits_xy(2, 3, cat.traits)
 	assert_eq(b.check_row_wins(), -1)

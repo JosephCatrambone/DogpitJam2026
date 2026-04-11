@@ -1,4 +1,4 @@
-class_name Piece extends Node2D
+class_name Creature extends Node2D
 
 enum SpeciesTrait {
 	VOID = 1 << 0,
@@ -22,6 +22,11 @@ enum SpeciesTrait {
 @export_flags("Cat:1", "Dog:2", "Birb:4", "Snek:8", "Eepy:16", "Zoomy:32", "Smol:64", "Potat:128", "Leggy:256", "Chonk:512", "Biggo:1024", "Angy:2048", "Derpy:4096", "Cuddly:8192")
 var traits: int
 
+@export var display_name: String
+@export var description: String
+@export var icon: Image
+@export var sprite: Sprite2D
+
 func set_trait(t: SpeciesTrait, value: bool):
 	var setter = int(t)
 	if value:
@@ -31,3 +36,14 @@ func set_trait(t: SpeciesTrait, value: bool):
 
 func get_trait(t: SpeciesTrait):
 	return bool(self.traits & int(t))
+
+func get_trait_names() -> PackedStringArray:
+	var res: PackedStringArray = []
+	var trait_names = SpeciesTrait.keys()
+	for i in range(len(trait_names)):
+		if i == 0:
+			continue
+		var bit = 1<<i
+		if bool(bit & self.traits):
+			res.append(trait_names[i])
+	return res
