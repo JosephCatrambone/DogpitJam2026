@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Little Shop of Wonders"
-run/main_scene="uid://c2jpil4hax31p"
+run/main_scene="uid://d2p4vdun6r43e"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"

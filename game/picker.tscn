@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://ck3j1dvdpctt0"]
+
+[ext_resource type="Script" uid="uid://xds8uii28hs1" path="res://game/picker.gd" id="1_02a31"]
+
+[node name="Picker" type="Node2D" unique_id=40471201]
+script = ExtResource("1_02a31")
+
+[node name="Control" type="Control" parent="." unique_id=104942341]
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 320.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Control" unique_id=1665900836]
+layout_mode = 0
+offset_right = 81.0
+offset_bottom = 31.0
+text = "Test Pick!"

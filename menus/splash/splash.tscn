@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://d2p4vdun6r43e"]
+
+[ext_resource type="Script" uid="uid://c62bj0e0f4ajk" path="res://menus/splash/splash.gd" id="1_8wd1d"]
+
+[node name="Main" type="Node" unique_id=844817809]
+editor_description = "This scene sets up the root-level \"Main\" Node, then calls scene manager to swap out the scene.  All other individual scenes are responsible for calling SceneManager.swap_scenes."
+script = ExtResource("1_8wd1d")

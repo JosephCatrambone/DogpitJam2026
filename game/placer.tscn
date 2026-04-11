@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://qpxrcrq7ssxy"]
+
+[ext_resource type="Script" uid="uid://c8w0cqxs7n6v2" path="res://game/placer.gd" id="1_wpcdn"]
+
+[node name="Placer" type="Node2D" unique_id=1847699290]
+script = ExtResource("1_wpcdn")
+
+[node name="Control" type="Control" parent="." unique_id=363313479]
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="Control" unique_id=1032297569]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Place"
