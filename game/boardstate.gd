@@ -68,8 +68,6 @@ func check_col_wins() -> int:
 		var accumulator: int = 0
 		for y in range(0, self.board_height):
 			var t: int = self.board_state[x+y*self.board_width]
-			if bool(t & accumulator):
-				return x
 			accumulator |= t
 		for y in range(0, self.board_height):
 			var t: int = self.board_state[x+y*self.board_width]

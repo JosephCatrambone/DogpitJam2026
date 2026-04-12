@@ -67,6 +67,7 @@ func _finish_pick(c: Creature):
 	self.creature_to_button.erase(c)
 	self.button_to_creature.erase(b)
 	self.button_area.remove_child(b)
+	print("Emitting pick!")
 	self.picked.emit(c)
 	self.picking_active = false
 	for other_button in self.button_area.get_children():

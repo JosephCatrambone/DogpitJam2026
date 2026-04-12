@@ -36,6 +36,7 @@ func check_game_finished() -> bool:
 	var col: int = self.board_state.check_col_wins()
 	var row: int = self.board_state.check_row_wins()
 	if col != -1 or row != -1:
+		print("Game over: col %d, row %d" % [col, row])
 		self.game_lost.emit(self.current_player, row, col)
 		return true
 	return false
@@ -50,6 +51,7 @@ func run_game_loop():
 		creature = await self.ai_controllers[self.current_player].compute_pick(self.board_state, self.picker.get_remaining_creatures())
 	else:
 		creature = await self.picker.picked
+	print("Got pick")
 	self._switch_player()
 	
 	# Place
@@ -59,6 +61,7 @@ func run_game_loop():
 		placement_x_y = [place_pos.x, place_pos.y, creature.traits]
 	else:
 		placement_x_y = await self.placer.placed
+	print("Got place")
 	self.board_state.set_traits_xy(placement_x_y[0], placement_x_y[1], placement_x_y[2])
 	
 	# Maybe finish.

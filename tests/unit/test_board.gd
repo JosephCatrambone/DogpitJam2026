@@ -1,6 +1,6 @@
 extends GutTest
 
-func test_no_wins_when_empty():
+func test_no_losses_when_empty():
 	var b: BoardState = BoardState.new(3, 3)
 	assert_eq(b.check_row_wins(), -1)
 	assert_eq(b.check_col_wins(), -1)
@@ -8,7 +8,29 @@ func test_no_wins_when_empty():
 	assert_eq(b.check_diagonal_bltr(), false)
 	b.queue_free()
 
-func test_basic_row_win():
+func test_no_losses():
+	var b := BoardState.new(4, 4)
+	for y in range(0, 4):
+		for x in range(0, 4):
+			var i = (x+y*4)
+			b.set_traits_xy(x, y, 1<<i)
+	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_col_wins(), -1)
+	b.queue_free()
+
+func test_no_gameover():
+	var b := BoardState.new(0, 0)
+	b.from_array([4, 4,
+		16396, 392, 0, 12804, 
+		0, 0, 4100, 0, 
+		0, 16648, 0, 0, 
+		0, 0, 0, 0
+	])
+	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_col_wins(), -1)
+	b.queue_free()
+
+func test_basic_row_lose():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
 	cat.set_trait(Creature.CreatureTrait.CAT, true)
@@ -29,12 +51,16 @@ func test_basic_row_win():
 	cat.queue_free()
 	b.queue_free()
 
-func test_basic_col_win():
+func test_basic_col_lose():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
 	cat.set_trait(Creature.CreatureTrait.CAT, true)
 	b.set_traits_xy(2, 0, cat.traits)
+	b.set_traits_xy(2, 1, cat.traits)
+	b.set_traits_xy(2, 2, cat.traits)
 	b.set_traits_xy(2, 3, cat.traits)
+	assert_eq(b.check_col_wins(), -1)
+	b.set_traits_xy(2, 4, cat.traits)
 	assert_eq(b.check_row_wins(), -1)
 	assert_eq(b.check_col_wins(), 2)
 	assert_eq(b.check_diagonal_tldr(), false)

@@ -1,17 +1,5 @@
 class_name Placer extends Node2D
 
-var width: int
-var height: int
-var creature_to_place: Creature
-var creatures: Array = []
-var buttons: Array[Button] = []
-@onready var creature_layer: Node2D = $CreatureLayer
-@onready var control_panel: Control = $Control
-
-func _ready() -> void:
-	self._initialize_board(4, 4)
-	self._disable_buttons()
-
 ## Call with a creature to place and this will begin the process, emitting 'placed' when finished.
 func request_place(creature: Creature):
 	self.creature_to_place = creature
@@ -24,6 +12,18 @@ signal placed(x: int, y: int, traits: int)
 #
 # Internals:
 #
+
+var width: int
+var height: int
+var creature_to_place: Creature
+var creatures: Array = []
+var buttons: Array[Button] = []
+@onready var creature_layer: Node2D = $CreatureLayer
+@onready var control_panel: Control = $Control
+
+func _ready() -> void:
+	self._initialize_board(4, 4)
+	self._disable_buttons()
 
 ## Initialize the board.
 func _initialize_board(width: int, height: int):
@@ -65,6 +65,7 @@ func _handle_place(btn: Button, x: int, y: int):
 	self.creature_layer.add_child(self.creature_to_place)
 	# TODO: This placement thing is probably wrong:
 	self.creature_to_place.global_position = btn.get_screen_position()  # This probably doesn't take scaling into effect.
+	print("Emit placed!")
 	self.placed.emit(x, y, self.creature_to_place.traits)
 	self.creature_to_place = null
 	self._disable_buttons()
