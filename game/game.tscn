@@ -3,6 +3,118 @@
 [ext_resource type="Script" uid="uid://cyif3eq2gx603" path="res://game/game.gd" id="1_h7iqs"]
 [ext_resource type="PackedScene" uid="uid://qpxrcrq7ssxy" path="res://game/placer.tscn" id="2_4fuuu"]
 [ext_resource type="PackedScene" uid="uid://ck3j1dvdpctt0" path="res://game/picker.tscn" id="3_dxrkv"]
+[ext_resource type="Script" uid="uid://dn64et0k6a7gk" path="res://game/helpers/game_state_indicator.gd" id="4_4fuuu"]
+[ext_resource type="Theme" uid="uid://cues5557j8pcr" path="res://gfx_shared/current_player_popover_label.tres" id="5_dxrkv"]
+
+[sub_resource type="Animation" id="Animation_dxrkv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PopoverMessage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 300)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PopoverMessage:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_y36n6"]
+resource_name = "ShowPopoverMessage"
+length = 2.0000014
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.76666665, 1.5333333, 1.9666667),
+"transitions": PackedFloat32Array(1, 10.196463, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PopoverMessage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.033333335, 0.86666673, 1.5000001, 1.9666667),
+"transitions": PackedFloat32Array(0.23325795, 1, 4.594792, 1),
+"update": 0,
+"values": [Vector2(0, 300), Vector2(0, 0), Vector2(0, 0), Vector2(0, 300)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PopoverMessage:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.9666668, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5opy"]
+_data = {
+&"RESET": SubResource("Animation_dxrkv"),
+&"ShowPopoverMessage": SubResource("Animation_y36n6")
+}
 
 [node name="Game" type="Control" unique_id=1647833952]
 layout_mode = 3
@@ -50,3 +162,34 @@ render_target_update_mode = 4
 [node name="Picker" parent="PlayArea/Selection/SubViewport" unique_id=2084870059 instance=ExtResource("3_dxrkv")]
 unique_name_in_owner = true
 offset_right = 0.0
+
+[node name="GameStateIndicator" type="Control" parent="." unique_id=1462089339]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(640, 320)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("4_4fuuu")
+
+[node name="PopoverMessage" type="Label" parent="GameStateIndicator" unique_id=1290095897]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 300.0
+offset_bottom = 299.99963
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_dxrkv")
+text = "Player N:
+Placeholder Text"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameStateIndicator" unique_id=1411296793]
+libraries/ = SubResource("AnimationLibrary_u5opy")

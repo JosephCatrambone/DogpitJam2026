@@ -17,6 +17,13 @@ func get_remaining_creature_count() -> int:
 	return len(self.creature_to_button)
 
 #
+# Exposed for AI:
+#
+
+func pick_creature(c: Creature):
+	self._finish_pick(c)
+
+#
 # Internals:
 #
 

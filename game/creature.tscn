@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dcpb317i05c4d"]
+
+[ext_resource type="Script" uid="uid://bk8sn475tfy1l" path="res://game/creature.gd" id="1_sa13y"]
+
+[node name="Creature" type="AnimatedSprite2D" unique_id=1962625881]
+script = ExtResource("1_sa13y")
