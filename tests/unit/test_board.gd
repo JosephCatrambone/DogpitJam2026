@@ -11,7 +11,7 @@ func test_no_wins_when_empty():
 func test_basic_row_win():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
-	cat.set_trait(Creature.SpeciesTrait.CAT, true)
+	cat.set_trait(Creature.CreatureTrait.CAT, true)
 	assert_eq(b.check_row_wins(), -1)
 	b.set_traits_xy(0, 1, cat.traits)
 	assert_eq(b.check_row_wins(), -1)
@@ -32,7 +32,7 @@ func test_basic_row_win():
 func test_basic_col_win():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
-	cat.set_trait(Creature.SpeciesTrait.CAT, true)
+	cat.set_trait(Creature.CreatureTrait.CAT, true)
 	b.set_traits_xy(2, 0, cat.traits)
 	b.set_traits_xy(2, 3, cat.traits)
 	assert_eq(b.check_row_wins(), -1)

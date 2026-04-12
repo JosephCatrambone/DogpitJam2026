@@ -35,11 +35,11 @@ func _init_creatures(count: int):
 		c.display_name = Math.choice(["Sp", "D", "Fl", "Dr. Boop"]) + Math.choice(["oof", "oop", "ee", "u"]) + Math.choice(["", "", "ie", "sy", " The Great", " The 3rd", "est Maximus", " Jr.", ": Destroyer of Worlds"])
 		# Ensure at least one trait is set.  Some of these are mutually exclusive, but this is all placeholder.
 		c.set_trait(Math.choice([
-			Creature.SpeciesTrait.CAT, Creature.SpeciesTrait.DOG, Creature.SpeciesTrait.BIRB, Creature.SpeciesTrait.SNEK, 
+			Creature.CreatureTrait.CAT, Creature.CreatureTrait.DOG, Creature.CreatureTrait.BIRB, Creature.CreatureTrait.SNEK, 
 		]), true)
 		for _i in range(0, Math.range_inclusive(1, 3)):
-			var t = Math.choice(Creature.SpeciesTrait.keys())
-			c.set_trait(Creature.SpeciesTrait[t], true)
+			var t = Math.choice(Creature.CreatureTrait.keys())
+			c.set_trait(Creature.CreatureTrait[t], true)
 		self._add_creatue(c)
 
 func _add_creatue(c: Creature):

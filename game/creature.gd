@@ -1,6 +1,6 @@
 class_name Creature extends Node2D
 
-enum SpeciesTrait {
+enum CreatureTrait {
 	VOID = 1 << 0,
 	CAT = 1 << 1,
 	DOG = 1 << 2, 
@@ -26,20 +26,20 @@ var traits: int
 @export var description: String
 @export var icon: Image
 
-func set_trait(t: SpeciesTrait, value: bool):
+func set_trait(t: CreatureTrait, value: bool):
 	var setter = int(t)
 	if value:
 		self.traits = (self.traits | setter)
 	else:
 		self.traits = (self.traits & ~setter)
 
-func get_trait(t: SpeciesTrait):
+func get_trait(t: CreatureTrait):
 	return bool(self.traits & int(t))
 
 ## Expands the compact integer representation of traits into an array of Enums.
-func get_trait_array() -> Array[SpeciesTrait]:
+func get_trait_array() -> Array[CreatureTrait]:
 	var res = []
-	for t in SpeciesTrait.keys():
+	for t in CreatureTrait.keys():
 		if self.get_trait(t):
 			res.append(t)
 	return res
@@ -47,7 +47,7 @@ func get_trait_array() -> Array[SpeciesTrait]:
 ## Expands the compact integer representation of traits into an array of string names.
 func get_trait_names() -> PackedStringArray:
 	var res: PackedStringArray = []
-	var trait_names = SpeciesTrait.keys()
+	var trait_names = CreatureTrait.keys()
 	for i in range(len(trait_names)):
 		if i == 0:
 			continue
