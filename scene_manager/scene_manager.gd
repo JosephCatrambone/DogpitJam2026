@@ -93,7 +93,7 @@ func _update_load_status(load_op: SceneLoadOperation):
 		# Pending:
 		ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			if _loading_screen != null:
-				_loading_screen.update_bar(load_progress[0] * 100)
+				_loading_screen.update_bar(load_progress[0])
 		# Failures:
 		ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
 			self.load_failed.emit(load_op.scene_to_load)

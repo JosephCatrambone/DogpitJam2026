@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://ck3j1dvdpctt0"]
 
 [ext_resource type="Script" uid="uid://xds8uii28hs1" path="res://game/picker.gd" id="1_02a31"]
-[ext_resource type="Texture2D" uid="uid://n8wrompenxvb" path="res://shared_ui/UI_selection_c.png" id="2_de3fl"]
 
 [node name="Picker" type="Control" unique_id=826746465]
 custom_minimum_size = Vector2(320, 320)
@@ -9,11 +8,14 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -320.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_02a31")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1214220484]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1531446945]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,15 +23,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1665900836]
+[node name="ButtonContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1676969063]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
-text = "Test Pick!"
-
-[node name="SelectionRect" type="NinePatchRect" parent="VBoxContainer" unique_id=901809906]
-layout_mode = 2
-texture = ExtResource("2_de3fl")
-region_rect = Rect2(0, 0, 16, 16)
-patch_margin_left = 9
-patch_margin_top = 9
-patch_margin_right = 9
-patch_margin_bottom = 9
+size_flags_horizontal = 3
+size_flags_vertical = 3

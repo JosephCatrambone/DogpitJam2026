@@ -25,7 +25,6 @@ var traits: int
 @export var display_name: String
 @export var description: String
 @export var icon: Image
-@export var sprite: Sprite2D
 
 func set_trait(t: SpeciesTrait, value: bool):
 	var setter = int(t)
@@ -37,6 +36,15 @@ func set_trait(t: SpeciesTrait, value: bool):
 func get_trait(t: SpeciesTrait):
 	return bool(self.traits & int(t))
 
+## Expands the compact integer representation of traits into an array of Enums.
+func get_trait_array() -> Array[SpeciesTrait]:
+	var res = []
+	for t in SpeciesTrait.keys():
+		if self.get_trait(t):
+			res.append(t)
+	return res
+
+## Expands the compact integer representation of traits into an array of string names.
 func get_trait_names() -> PackedStringArray:
 	var res: PackedStringArray = []
 	var trait_names = SpeciesTrait.keys()

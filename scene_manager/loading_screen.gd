@@ -19,6 +19,9 @@ const SCENE_TRANSITION_TO_NAME: Dictionary[SceneTransitionTypes, StringName] = {
 func _ready() -> void:
 	pass
 
+func update_bar(percentage: float):
+	pass
+
 func start_transition(transition: SceneTransitionTypes):
 	anim_player.play(SCENE_TRANSITION_TO_NAME[transition])
 	# Should we track the last transition or rely on anim_player.curent_animation?

@@ -13,20 +13,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h7iqs")
 
-[node name="PlayArea" type="HBoxContainer" parent="." unique_id=1651382868]
+[node name="PlayArea" type="HBoxContainer" parent="." unique_id=1868944469]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Placement" type="SubViewportContainer" parent="PlayArea" unique_id=17088761]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="SubViewport" type="SubViewport" parent="PlayArea/Placement" unique_id=1551708066]
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
 size = Vector2i(320, 320)
 render_target_update_mode = 4
 
@@ -35,11 +39,14 @@ unique_name_in_owner = true
 
 [node name="Selection" type="SubViewportContainer" parent="PlayArea" unique_id=1428149445]
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="SubViewport" type="SubViewport" parent="PlayArea/Selection" unique_id=1326247616]
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
 size = Vector2i(320, 320)
 render_target_update_mode = 4
 
 [node name="Picker" parent="PlayArea/Selection/SubViewport" unique_id=2084870059 instance=ExtResource("3_dxrkv")]
 unique_name_in_owner = true
+offset_right = 0.0

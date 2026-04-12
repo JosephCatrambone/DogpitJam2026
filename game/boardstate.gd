@@ -31,42 +31,50 @@ func from_array(state: PackedInt64Array):
 	self.board_state = state.slice(2)
 
 func set_traits_xy(x: int, y: int, p: int):
+	# Debugs:
+	"""
+	var binout = ""
+	var temp = p
+	for _idx in range(0, 32):
+		if bool(temp & 0x1):
+			binout = "1" + binout
+		else:
+			binout = "0" + binout
+		temp >>= 1
+	print("%4d, %4d, %32s" % [x, y, binout])
+	"""
 	self.board_state[x + y*self.board_width] = p
 
 func get_traits_xy(x: int, y: int) -> int:
 	return self.board_state[x + y*self.board_width]
 
-func _count_bits(v:int) -> int:
-	var count = 0
-	while v > 0:
-		if bool(v&0x1):
-			count += 1
-		v = v >> 1
-	return count
-
 func check_row_wins() -> int:
 	for y in range(0, self.board_height):
 		var accumulator: int = 0
-		var occupied_spaces: int = 0
+		# Build up all the bits in the row/col:
 		for x in range(0, self.board_width):
 			var t: int = self.board_state[x+y*self.board_width]
-			if t:
-				occupied_spaces += 1
 			accumulator |= t
-		if self._count_bits(accumulator) < occupied_spaces:
+		# Gradually remove them.  If any doesn't overlap, it means it was removed already.
+		for x in range(0, self.board_width):
+			var t: int = self.board_state[x+y*self.board_width]
+			accumulator &= t
+		if bool(accumulator):
 			return y
 	return -1
 
 func check_col_wins() -> int:
 	for x in range(0, self.board_width):
 		var accumulator: int = 0
-		var occupied_spaces: int = 0
 		for y in range(0, self.board_height):
 			var t: int = self.board_state[x+y*self.board_width]
-			if t:
-				occupied_spaces += 1
+			if bool(t & accumulator):
+				return x
 			accumulator |= t
-		if self._count_bits(accumulator) < occupied_spaces:
+		for y in range(0, self.board_height):
+			var t: int = self.board_state[x+y*self.board_width]
+			accumulator &= t
+		if bool(accumulator):
 			return x
 	return -1
 
@@ -74,26 +82,19 @@ func check_diagonal_tldr() -> bool:
 	if self.board_height != self.board_width:
 		return false
 	var accumulator: int = 0
-	var occupied_spaces: int = 0
 	for i in range(0, self.board_width):
 		var t: int = self.board_state[i+i*self.board_width]
-		if t:
-			occupied_spaces += 1
-		accumulator |= t
-	if self._count_bits(accumulator) < occupied_spaces:
-		return true
+		if bool(t & accumulator):
+			return true
 	return false
 
 func check_diagonal_bltr() -> bool:
 	if self.board_height != self.board_width:
 		return false
 	var accumulator: int = 0
-	var occupied_spaces: int = 0
 	for i in range(0, self.board_width):
 		var t: int = self.board_state[i+(self.board_width-1-i)*self.board_width]
-		if t:
-			occupied_spaces += 1
+		if bool(accumulator & t):
+			return true
 		accumulator |= t
-	if self._count_bits(accumulator) < occupied_spaces:
-		return true
 	return false

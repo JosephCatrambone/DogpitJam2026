@@ -2,26 +2,66 @@ class_name Picker extends Control
 
 signal picked(creature: Creature)
 
-@onready var btn: Button = $VBoxContainer/Button
-var picking_active: bool = false
-
-func _ready() -> void:
-	self.btn.pressed.connect(self._debug_emit)
-
-func _debug_emit():
-	var p: Creature = Creature.new()
-	p.set_trait(Creature.SpeciesTrait.SMOL, true)
-	p.set_trait(Creature.SpeciesTrait.DOG, true)
-	self.picked.emit(p)
-	self.picking_active = false
-	btn.disabled = true
-
 func request_pick():
 	picking_active = true
-	btn.disabled = false
+	for b in self.button_area.get_children():
+		b.disabled = false
 
 func get_remaining_creatures() -> Array[Creature]:
-	return []
+	var res: Array[Creature] = []
+	for k in self.creature_to_button.keys():
+		res.append(k)
+	return res
 
 func get_remaining_creature_count() -> int:
-	return 0
+	return len(self.creature_to_button)
+
+#
+# Internals:
+#
+
+var picker_button_theme = preload("res://gfx_shared/picker_button.tres")
+var picking_active: bool = false
+@onready var button_area: Container = %ButtonContainer
+var creature_to_button: Dictionary = {}
+var button_to_creature: Dictionary = {}
+
+func _ready() -> void:
+	self._init_creatures(16)
+
+func _init_creatures(count: int):
+	for i in range(count):
+		var c: Creature = Creature.new()
+		c.display_name = Math.choice(["Sp", "D", "Fl", "Dr. Boop"]) + Math.choice(["oof", "oop", "ee", "u"]) + Math.choice(["", "", "ie", "sy", " The Great", " The 3rd", "est Maximus", " Jr.", ": Destroyer of Worlds"])
+		# Ensure at least one trait is set.  Some of these are mutually exclusive, but this is all placeholder.
+		c.set_trait(Math.choice([
+			Creature.SpeciesTrait.CAT, Creature.SpeciesTrait.DOG, Creature.SpeciesTrait.BIRB, Creature.SpeciesTrait.SNEK, 
+		]), true)
+		for _i in range(0, Math.range_inclusive(1, 3)):
+			var t = Math.choice(Creature.SpeciesTrait.keys())
+			c.set_trait(Creature.SpeciesTrait[t], true)
+		self._add_creatue(c)
+
+func _add_creatue(c: Creature):
+	var b: Button = Button.new()
+	b.theme = self.picker_button_theme
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.text = ""
+	for t in c.get_trait_names():
+		b.text += "[" + t + "] "
+	b.text += c.display_name.capitalize()
+	self.creature_to_button[c] = b
+	self.button_to_creature[b] = c
+	b.pressed.connect(self._finish_pick.bind(c))
+	self.button_area.add_child(b)
+
+func _finish_pick(c: Creature):
+	var b = self.creature_to_button[c]
+	self.creature_to_button.erase(c)
+	self.button_to_creature.erase(b)
+	self.button_area.remove_child(b)
+	self.picked.emit(c)
+	self.picking_active = false
+	for other_button in self.button_area.get_children():
+		other_button.disabled = true
+	b.queue_free()

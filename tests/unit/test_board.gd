@@ -12,8 +12,16 @@ func test_basic_row_win():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
 	cat.set_trait(Creature.SpeciesTrait.CAT, true)
+	assert_eq(b.check_row_wins(), -1)
 	b.set_traits_xy(0, 1, cat.traits)
+	assert_eq(b.check_row_wins(), -1)
 	b.set_traits_xy(1, 1, cat.traits)
+	assert_eq(b.check_row_wins(), -1)
+	b.set_traits_xy(2, 1, cat.traits)
+	assert_eq(b.check_row_wins(), -1)
+	b.set_traits_xy(3, 1, cat.traits)
+	assert_eq(b.check_row_wins(), -1)
+	b.set_traits_xy(4, 1, cat.traits)
 	assert_eq(b.check_row_wins(), 1)
 	assert_eq(b.check_col_wins(), -1)
 	assert_eq(b.check_diagonal_tldr(), false)
@@ -33,6 +41,17 @@ func test_basic_col_win():
 	assert_eq(b.check_diagonal_bltr(), false)
 	cat.queue_free()
 	b.queue_free()
+
+func check_win():
+	var board_arr = [4, 4, 
+		16396, 5, 16452, 1052,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0
+	]
+	var b: BoardState = BoardState.new(0, 0)
+	b.from_array(board_arr)
+	assert_eq(b.check_row_wins(), 0)
 
 func test_serde():
 	var w = Math.range_inclusive(2,10)
