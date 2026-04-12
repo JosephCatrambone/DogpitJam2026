@@ -31,24 +31,12 @@ func from_array(state: PackedInt64Array):
 	self.board_state = state.slice(2)
 
 func set_traits_xy(x: int, y: int, p: int):
-	# Debugs:
-	"""
-	var binout = ""
-	var temp = p
-	for _idx in range(0, 32):
-		if bool(temp & 0x1):
-			binout = "1" + binout
-		else:
-			binout = "0" + binout
-		temp >>= 1
-	print("%4d, %4d, %32s" % [x, y, binout])
-	"""
 	self.board_state[x + y*self.board_width] = p
 
 func get_traits_xy(x: int, y: int) -> int:
 	return self.board_state[x + y*self.board_width]
 
-func check_row_wins() -> int:
+func check_row_parade() -> int:
 	for y in range(0, self.board_height):
 		var accumulator: int = 0
 		# Build up all the bits in the row/col:
@@ -63,7 +51,7 @@ func check_row_wins() -> int:
 			return y
 	return -1
 
-func check_col_wins() -> int:
+func check_col_parade() -> int:
 	for x in range(0, self.board_width):
 		var accumulator: int = 0
 		for y in range(0, self.board_height):

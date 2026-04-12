@@ -2,8 +2,8 @@ extends GutTest
 
 func test_no_losses_when_empty():
 	var b: BoardState = BoardState.new(3, 3)
-	assert_eq(b.check_row_wins(), -1)
-	assert_eq(b.check_col_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
+	assert_eq(b.check_col_parade(), -1)
 	assert_eq(b.check_diagonal_tldr(), false)
 	assert_eq(b.check_diagonal_bltr(), false)
 	b.queue_free()
@@ -14,8 +14,8 @@ func test_no_losses():
 		for x in range(0, 4):
 			var i = (x+y*4)
 			b.set_traits_xy(x, y, 1<<i)
-	assert_eq(b.check_row_wins(), -1)
-	assert_eq(b.check_col_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
+	assert_eq(b.check_col_parade(), -1)
 	b.queue_free()
 
 func test_no_gameover():
@@ -26,26 +26,26 @@ func test_no_gameover():
 		0, 16648, 0, 0, 
 		0, 0, 0, 0
 	])
-	assert_eq(b.check_row_wins(), -1)
-	assert_eq(b.check_col_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
+	assert_eq(b.check_col_parade(), -1)
 	b.queue_free()
 
 func test_basic_row_lose():
 	var b: BoardState = BoardState.new(5, 5)
 	var cat: Creature = Creature.new()
 	cat.set_trait(Creature.CreatureTrait.CAT, true)
-	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
 	b.set_traits_xy(0, 1, cat.traits)
-	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
 	b.set_traits_xy(1, 1, cat.traits)
-	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
 	b.set_traits_xy(2, 1, cat.traits)
-	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
 	b.set_traits_xy(3, 1, cat.traits)
-	assert_eq(b.check_row_wins(), -1)
+	assert_eq(b.check_row_parade(), -1)
 	b.set_traits_xy(4, 1, cat.traits)
-	assert_eq(b.check_row_wins(), 1)
-	assert_eq(b.check_col_wins(), -1)
+	assert_eq(b.check_row_parade(), 1)
+	assert_eq(b.check_col_parade(), -1)
 	assert_eq(b.check_diagonal_tldr(), false)
 	assert_eq(b.check_diagonal_bltr(), false)
 	cat.queue_free()
@@ -59,10 +59,10 @@ func test_basic_col_lose():
 	b.set_traits_xy(2, 1, cat.traits)
 	b.set_traits_xy(2, 2, cat.traits)
 	b.set_traits_xy(2, 3, cat.traits)
-	assert_eq(b.check_col_wins(), -1)
+	assert_eq(b.check_col_parade(), -1)
 	b.set_traits_xy(2, 4, cat.traits)
-	assert_eq(b.check_row_wins(), -1)
-	assert_eq(b.check_col_wins(), 2)
+	assert_eq(b.check_row_parade(), -1)
+	assert_eq(b.check_col_parade(), 2)
 	assert_eq(b.check_diagonal_tldr(), false)
 	assert_eq(b.check_diagonal_bltr(), false)
 	cat.queue_free()
@@ -77,7 +77,7 @@ func check_win():
 	]
 	var b: BoardState = BoardState.new(0, 0)
 	b.from_array(board_arr)
-	assert_eq(b.check_row_wins(), 0)
+	assert_eq(b.check_row_parade(), 0)
 
 func test_serde():
 	var w = Math.range_inclusive(2,10)

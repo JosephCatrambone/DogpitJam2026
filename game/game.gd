@@ -33,8 +33,8 @@ func _switch_player():
 
 ## Checks if the game is over, raises the game_lost signal, and returns true. (Or false if not over)
 func check_game_finished() -> bool:
-	var col: int = self.board_state.check_col_wins()
-	var row: int = self.board_state.check_row_wins()
+	var col: int = self.board_state.check_col_parade()
+	var row: int = self.board_state.check_row_parade()
 	if col != -1 or row != -1:
 		print("Game over: col %d, row %d" % [col, row])
 		self.game_lost.emit(self.current_player, row, col)
