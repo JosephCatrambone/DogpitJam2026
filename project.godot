@@ -24,10 +24,15 @@ Config="*uid://btf1g0pogsdhx"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=320
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=2
+
+[editor]
+
+movie_writer/movie_file="/home/joseph/Videos/godot_capture.ogv"
+movie_writer/fps=30
 
 [editor_plugins]
 
@@ -43,3 +48,4 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

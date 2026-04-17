@@ -56,10 +56,22 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:mouse_filter")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_y36n6"]
 resource_name = "ShowPopoverMessage"
-length = 2.0000014
+length = 1.6666684
 step = 0.0333333
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -68,7 +80,7 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.76666665, 1.5333333, 1.9666667),
+"times": PackedFloat32Array(0.033333335, 0.4, 1.2666667, 1.6),
 "transitions": PackedFloat32Array(1, 10.196463, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -80,7 +92,7 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1.6333333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -92,10 +104,10 @@ tracks/2/path = NodePath("PopoverMessage:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.033333335, 0.86666673, 1.5000001, 1.9666667),
+"times": PackedFloat32Array(0.033333335, 0.50000006, 1.2333335, 1.6),
 "transitions": PackedFloat32Array(0.23325795, 1, 4.594792, 1),
 "update": 0,
-"values": [Vector2(0, 300), Vector2(0, 0), Vector2(0, 0), Vector2(0, 300)]
+"values": [Vector2(0, 720), Vector2(0, 0), Vector2(0, 0), Vector2(0, -720)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -104,10 +116,22 @@ tracks/3/path = NodePath("PopoverMessage:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1.9666668, 2),
+"times": PackedFloat32Array(0, 1.6, 1.6333333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:mouse_filter")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 1.6, 1.6333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 0, 0, 2]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u5opy"]
@@ -125,43 +149,44 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h7iqs")
 
-[node name="PlayArea" type="HBoxContainer" parent="." unique_id=1868944469]
-clip_contents = true
+[node name="PlayArea" type="VBoxContainer" parent="." unique_id=186645903]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -380.0
+offset_right = 640.0
+offset_bottom = 380.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Placement" type="SubViewportContainer" parent="PlayArea" unique_id=17088761]
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayArea" unique_id=1868944469]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="SubViewport" type="SubViewport" parent="PlayArea/Placement" unique_id=1551708066]
-handle_input_locally = false
-snap_2d_transforms_to_pixel = true
-size = Vector2i(320, 320)
-render_target_update_mode = 4
-
-[node name="Placer" parent="PlayArea/Placement/SubViewport" unique_id=1530138564 instance=ExtResource("2_4fuuu")]
+[node name="Placer" parent="PlayArea/HBoxContainer" unique_id=1530138564 instance=ExtResource("2_4fuuu")]
 unique_name_in_owner = true
-
-[node name="Selection" type="SubViewportContainer" parent="PlayArea" unique_id=1428149445]
 layout_mode = 2
-size_flags_horizontal = 8
 
-[node name="SubViewport" type="SubViewport" parent="PlayArea/Selection" unique_id=1326247616]
-handle_input_locally = false
-snap_2d_transforms_to_pixel = true
-size = Vector2i(320, 320)
-render_target_update_mode = 4
-
-[node name="Picker" parent="PlayArea/Selection/SubViewport" unique_id=2084870059 instance=ExtResource("3_dxrkv")]
+[node name="Picker" parent="PlayArea/HBoxContainer" unique_id=2084870059 instance=ExtResource("3_dxrkv")]
 unique_name_in_owner = true
-offset_right = 0.0
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="ActionLabel" type="RichTextLabel" parent="PlayArea" unique_id=397087220]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 8
+bbcode_enabled = true
+text = "Now Placing: ABCD"
 
 [node name="GameStateIndicator" type="Control" parent="." unique_id=1462089339]
 modulate = Color(1, 1, 1, 0)
@@ -172,9 +197,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("4_4fuuu")
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="PopoverMessage" type="Label" parent="GameStateIndicator" unique_id=1290095897]
 layout_mode = 1
@@ -186,10 +212,10 @@ offset_bottom = 299.99963
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_dxrkv")
-text = "Player N:
-Placeholder Text"
+text = "Game Start"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GameStateIndicator" unique_id=1411296793]
 libraries/ = SubResource("AnimationLibrary_u5opy")
+autoplay = &"ShowPopoverMessage"

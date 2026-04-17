@@ -12,8 +12,8 @@ func _init(width: int, height: int, from_state: PackedInt64Array = []):
 		for i in range(0, width*height):
 			self.board_state.append(0)
 	else:
-		for i in range(0, width*width):
-			self.board_state.append(from_state[i])
+		assert(from_state.size() == width*height)
+		self.board_state = from_state.duplicate()
 
 func clone() -> BoardState:
 	return BoardState.new(self.board_width, self.board_height, self.board_state)
@@ -36,7 +36,21 @@ func set_traits_xy(x: int, y: int, p: int):
 func get_traits_xy(x: int, y: int) -> int:
 	return self.board_state[x + y*self.board_width]
 
-func check_row_parade() -> int:
+func check_loss():
+	"""Returns (row, col, diag, traits) or null if there's no loss."""
+	var col = self.check_col_parade()
+	var row = self.check_row_parade()
+	var diagonals = self.check_diagonals()
+	if col != null:
+		return [-1, col[0], -1, col[1]]
+	elif row != null:
+		return [row[0], -1, -1, row[1]]
+	elif diagonals != null:
+		return [-1, -1, diagonals[0], diagonals[1]]
+	return null
+
+func check_row_parade():
+	"""Returns null if there's no winner, otherwise returns [row, traits]."""
 	for y in range(0, self.board_height):
 		var accumulator: int = 0
 		# Build up all the bits in the row/col:
@@ -48,10 +62,11 @@ func check_row_parade() -> int:
 			var t: int = self.board_state[x+y*self.board_width]
 			accumulator &= t
 		if bool(accumulator):
-			return y
-	return -1
+			return [y, accumulator]
+	return null
 
-func check_col_parade() -> int:
+func check_col_parade():
+	"""Returns null if there's no winner, otherwise returns [col, traits]."""
 	for x in range(0, self.board_width):
 		var accumulator: int = 0
 		for y in range(0, self.board_height):
@@ -61,26 +76,27 @@ func check_col_parade() -> int:
 			var t: int = self.board_state[x+y*self.board_width]
 			accumulator &= t
 		if bool(accumulator):
-			return x
-	return -1
+			return [x, accumulator]
+	return null
 
-func check_diagonal_tldr() -> bool:
+func check_diagonals():
+	"""Returns null if there's no winner, otherwise returns [1 (for top left to bottom right) or 2 (for top right to bottom left), traits]."""
 	if self.board_height != self.board_width:
 		return false
-	var accumulator: int = 0
+	var accumulator_tlbr: int = 0
+	var accumulator_bltr: int = 0
 	for i in range(0, self.board_width):
 		var t: int = self.board_state[i+i*self.board_width]
-		if bool(t & accumulator):
-			return true
-	return false
-
-func check_diagonal_bltr() -> bool:
-	if self.board_height != self.board_width:
-		return false
-	var accumulator: int = 0
+		accumulator_tlbr |= t
+		t = self.board_state[i+(self.board_width-1-i)*self.board_width]
+		accumulator_bltr |= t
 	for i in range(0, self.board_width):
-		var t: int = self.board_state[i+(self.board_width-1-i)*self.board_width]
-		if bool(accumulator & t):
-			return true
-		accumulator |= t
-	return false
+		var t: int = self.board_state[i+i*self.board_width]
+		accumulator_tlbr &= t
+		t = self.board_state[i+(self.board_width-1-i)*self.board_width]
+		accumulator_bltr &= t
+	if bool(accumulator_bltr):
+		return [2, accumulator_bltr]
+	elif bool(accumulator_tlbr):
+		return [1, accumulator_bltr]
+	return null  # Rather than return [0,0], avoid an allocation.

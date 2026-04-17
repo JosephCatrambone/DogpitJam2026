@@ -2,13 +2,16 @@
 
 [ext_resource type="Script" uid="uid://xds8uii28hs1" path="res://game/picker.gd" id="1_02a31"]
 
-[node name="Picker" type="Control" unique_id=826746465]
-custom_minimum_size = Vector2(320, 320)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -320.0
+[node name="Picker" type="Panel" unique_id=2009660278]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -320.0
+offset_right = 320.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -16,6 +19,8 @@ size_flags_vertical = 3
 script = ExtResource("1_02a31")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1531446945]
+clip_contents = false
+custom_minimum_size = Vector2(640, 640)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +30,6 @@ grow_vertical = 2
 
 [node name="ButtonContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1676969063]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 320)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
