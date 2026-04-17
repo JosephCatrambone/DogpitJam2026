@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://dmokb8m05268r"]
+
+[ext_resource type="Theme" uid="uid://54xclrqfiv2y" path="res://gfx_shared/visual_novel_theme.tres" id="1_56jud"]
+[ext_resource type="Script" uid="uid://bx2f6d554f1f6" path="res://cutscene/cutscene.gd" id="1_d3cms"]
+[ext_resource type="Texture2D" uid="uid://buie24kkilicv" path="res://icon.svg" id="3_el7ma"]
+[ext_resource type="AudioStream" uid="uid://bl612nkv64e3f" path="res://sfx/character_blip.wav" id="5_ast0s"]
+
+[node name="Cutscene" type="Control" unique_id=890539646]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_56jud")
+script = ExtResource("1_d3cms")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1876458561]
+unique_name_in_owner = true
+self_modulate = Color(0.517647, 0.517647, 0.517647, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_el7ma")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=790568374]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1354001517]
+layout_mode = 2
+alignment = 1
+
+[node name="Speakers" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1115356609]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="SpeakerTemplate" type="TextureRect" parent="MarginContainer/VBoxContainer/Speakers" unique_id=865461076]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_el7ma")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="DialogOutput" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=982371398]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "It's really a shame how a family can be torn apart by something as silly as a pack of wild animals."
+scroll_following = true
+shortcut_keys_enabled = false
+
+[node name="PromptAndChoices" type="CenterContainer" parent="MarginContainer/VBoxContainer" unique_id=1144406396]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PromptAndChoices" unique_id=906288944]
+layout_mode = 2
+alignment = 1
+
+[node name="Prompt" type="RichTextLabel" parent="MarginContainer/VBoxContainer/PromptAndChoices/VBoxContainer" unique_id=2137240033]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+text = "Choices:"
+fit_content = true
+scroll_active = false
+
+[node name="ButtonTemplate" type="Button" parent="MarginContainer/VBoxContainer/PromptAndChoices/VBoxContainer" unique_id=2817497]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Selection 1"
+
+[node name="Choices" type="GridContainer" parent="MarginContainer/VBoxContainer/PromptAndChoices/VBoxContainer" unique_id=1704755560]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TickNoise" type="AudioStreamPlayer" parent="." unique_id=140046036]
+unique_name_in_owner = true
+stream = ExtResource("5_ast0s")
