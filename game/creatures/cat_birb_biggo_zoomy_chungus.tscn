@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cuoo10delkngy"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_km35j"]
+[ext_resource type="Texture2D" uid="uid://c6fh6cbhddjop" path="res://gfx_shared/creatures.png" id="2_mpb44"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi7r7"]
+atlas = ExtResource("2_mpb44")
+region = Rect2(0, 64, 64, 64)
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_km35j")]
+traits = 1061
+display_name = "Chungus"
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_gi7r7")

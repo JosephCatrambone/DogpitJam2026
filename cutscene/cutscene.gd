@@ -1,6 +1,10 @@
 extends Control
 
-const RUN_NAME: String = "run"
+# Resources for the full story sequence
+var _story: Dictionary  
+var _characters: Dictionary  # Map of character name to map of character emotions to images.
+var _backgrounds: Dictionary
+var ambiance: Dictionary
 
 @export var non_speaking_color: Color = Color(0.8, 0.8, 0.8, 0.8)
 @export var period_pause_time_scale: float = 10  # When we hit a period, we wait for time_between_characters * this.
@@ -14,18 +18,13 @@ var terminal_events_fired: bool = false  # Something of a trigger hack.  This is
 var mouse_released: bool = false
 var mouse_just_released: bool = false  # Trigger advances on mouse-up.
 
-var _story: Dictionary  
-var _characters: Dictionary  # character name to list of emotions
-var _backgrounds: Dictionary
-var ambiance: Dictionary
-
+# Resources for the current dialog:
 var _loaded: bool = false
-var _raw_data: Dictionary
+var _raw_data: Dictionary   # Holds the raw JSON data before we've assigned it to speakers and buttons.
 var actor_name_to_texture_rect: Dictionary = {}
 var character_index_to_actor_switch: Dictionary = {}  # Maps an integer to an actor or actor:emote combo.
-var next_scene: String = ""
-var minigame_name: String = ""
-var minigame_outcomes: Dictionary = {}  # Maps to game_outcome.
+var next_scene: String = ""  # If we auto-advance
+var game_data: Variant = null
 
 # These will all be reinitialized in their respective _load_x functions because .load(...) might be called before ready.
 @onready var bg: TextureRect = %Background
@@ -42,15 +41,22 @@ var minigame_outcomes: Dictionary = {}  # Maps to game_outcome.
 
 
 func _ready():
-	print_debug("New dialog spawn")
 	self.speaker_images.remove_child(self.speaker_template)
 	self.button_template.get_parent().remove_child(self.button_template)
-	self.dialog_out.visible = true
-	self.prompt_and_choices.visible = false
 	
-	var fin = FileAccess.open("res://cutscene/sample_story.json", FileAccess.READ)
+	# DEBUG!
+	#self.init_scene()
+	#self.start_scene()
+
+
+func init_scene(data: Variant):
+	var fin = FileAccess.open(data["sequence"], FileAccess.READ)
 	self.load_story_from_json(fin.get_as_text())
-	self.load_dialog(self._story["todo"])
+
+
+func start_scene():
+	# Expect {"sequence_name": "res://cutscene/...json", "start_dialog": "some_dialog"}
+	self.load_dialog(self._story["start"])
 
 
 func _process(delta):
@@ -110,18 +116,18 @@ func load_image_from_story_asset(image_data: String) -> ImageTexture:
 	var img_tex: ImageTexture
 	if image_data.begins_with("png:"):
 		print("Load b64")
-		image.load_png_from_buffer(Marshalls.base64_to_raw(image_data.substr(len("png:"))))
+		image.load_png_from_buffer(Marshalls.base64_to_raw(image_data.substr("png:".length())))
 		img_tex = ImageTexture.create_from_image(image)
 	elif image_data.begins_with("file:"):
-		print("Load file ", image_data.substr(len("file:")))
-		image = Image.load_from_file("user://" + image_data.substr(len("file:")))
+		print("Load file ", image_data.substr("file:".length()))
+		image = Image.load_from_file("user://" + image_data.substr("file:".length()))
 		img_tex = ImageTexture.create_from_image(image)
 	elif image_data.begins_with("res:"):
 		image = load(image_data) as Image
 		img_tex = ImageTexture.create_from_image(image)
 	elif image_data.begins_with("svg:"):
-		var e = image.load_svg_from_string(image_data.substr(len("svg:")))
-		if e == null:
+		var e: Error = image.load_svg_from_string(image_data.substr("svg:".length()))
+		if not e:
 			img_tex = ImageTexture.create_from_image(image)
 		else:
 			printerr("ERROR LOADING SVG RESOURCE: ", e)
@@ -141,9 +147,10 @@ func save_default_story():
 
 
 func load_dialog(data: Dictionary):
+	self._loaded = false
 	# See the reference scene.
 	# Named load_dialog instead of load to avoid name conflict.
-	for required_field in ["background", "actors", "text", "prompt", "options", "next", "on_enter", "minigame", "minigame_outcome", "next"]:
+	for required_field in ["background", "actors", "text", "prompt", "options", "next", "on_enter", "minigame", "next"]:
 		if not data.has(required_field):
 			printerr("Scene missing required field: ", required_field)
 	self._raw_data = data
@@ -155,8 +162,13 @@ func _finish_loading():
 	self._load_actors(self._raw_data)
 	self._load_choices(self._raw_data)
 	self._load_text(self._raw_data)
+	self._load_play_data(self._raw_data)
 	self.next_scene = self._raw_data["next"]
 	var on_enter_command:String = self._raw_data["on_enter"]
+	# Reset init values.
+	self.dialog_out.visible = true
+	self.prompt_and_choices.visible = false
+	self.terminal_events_fired = false  
 	self._loaded = true
 	
 	if not on_enter_command.is_empty():
@@ -184,9 +196,6 @@ func _load_actors(data: Dictionary):
 		self.actor_name_to_texture_rect[a_name.to_lower()] = r
 		r.texture = self.get_character(a_name)
 		self.speaker_images.add_child(r)
-		# There's one special case: we cannot have an actor named 'run' since we reserve that for triggers.
-		if a_name.to_lower() == RUN_NAME:
-			printerr("ERROR: Scene has 'run' as a character name.")
 
 
 func _load_choices(data: Dictionary):
@@ -202,9 +211,8 @@ func _load_choices(data: Dictionary):
 	for opt_text in data["options"].keys():
 		var choice: Button = button_template.duplicate()
 		choice.text = opt_text
-		var next_scene = data["options"][opt_text]
-		#choice.pressed.connect(func(): StoryManager.switch_scene(next_scene))
-		# TODO: STORY MANAGER USED TO DO THIS!
+		var opt_next_scene = data["options"][opt_text]
+		choice.pressed.connect(self.load_dialog.bind(self._story[opt_next_scene]))
 		self.choices.add_child(choice)
 	if len(data["options"]) > 0 and self.prompt.text.is_empty():
 		printerr("WARNING: Got 'prompt' with no options!  Make sure the text shows options!")
@@ -222,7 +230,7 @@ func _load_text(data: Dictionary):
 			# We are filling the name buffer.
 			if c == ']':
 				# We finished filling the name buffer.
-				self.character_index_to_actor_switch[len(text_buffer)] = name_buffer.strip_edges()  # Have to trim the ' ' prefix.
+				self.character_index_to_actor_switch[text_buffer.length()] = name_buffer.strip_edges()  # Have to trim the ' ' prefix.
 				name_buffer = ""
 			else:
 				name_buffer += c
@@ -236,6 +244,12 @@ func _load_text(data: Dictionary):
 	#var tr: TextureRect = $MarginContainer/VBoxContainer/Speakers/Speaker1
 	#tr.texture = Texture2D.new()
 	#tr.texture.get_image().load_png_from_buffer()
+
+
+func _load_play_data(data: Dictionary):
+	# If "play_data" is not empty, we immediately transition to a new scene and pass the data to that scene.
+	if not data['minigame'].is_empty():
+		SceneManager.swap_scenes("res://game/game.tscn", data['minigame'])
 
 
 func _maybe_advance_dialog(delta):
@@ -253,11 +267,11 @@ func _maybe_advance_dialog(delta):
 	var caret: int = self.dialog_out.visible_characters
 	var character_just_shown = ''
 	var just_finished: bool = false
-	if self.time_to_next_character <= 0.0 and caret < len(self.dialog_out.text):
+	if self.time_to_next_character <= 0.0 and caret < self.dialog_out.text.length():
 		self.time_to_next_character = self.time_between_characters
 		self.dialog_out.visible_characters += 1
 		self.type_noise.play()
-		if caret+1 < len(self.dialog_out.text):
+		if caret+1 < self.dialog_out.text.length():
 			character_just_shown = self.dialog_out.text[caret+1]
 		
 		# If the player is holding down a button or the mouse, advance at full speed.
@@ -289,7 +303,7 @@ func _maybe_advance_dialog(delta):
 			just_finished = true
 				
 	# Finishing the dialog:
-	if (just_finished or len(self.dialog_out.text) == 0) and not self.terminal_events_fired:
+	if (just_finished or self.dialog_out.text.length() == 0) and not self.terminal_events_fired:
 		self.terminal_events_fired = true
 		# Done!
 		# We will automatically display options and move forward so that we can 'hack' stuff by making many scenes which automatically connect.
@@ -297,13 +311,12 @@ func _maybe_advance_dialog(delta):
 		if not self.prompt.text.is_empty():
 			self.dialog_out.visible = false
 			self.prompt_and_choices.visible = true
-		elif not self.minigame_name.is_empty():
-			print_debug("Starting minigame")
-			#var outcome = await GameManager.start_minigame(self.minigame_name)
-			#StoryManager.switch_scene(self.minigame_outcomes[outcome])
+			print("Debug: Showing prompt and choices.")
+		elif self.game_data:
+			SceneManager.swap_scenes("res://game/game.tscn", self.game_data)
 		elif not self.next_scene.is_empty():
 			#StoryManager.switch_scene(self.next_scene)
-			print_debug("Switching scene to...")
+			self.load_dialog(self._story[self.next_scene])
 		else:
 			# We have no dialog active, no new scene, no prompts, and no minigame.
 			# Self destruct.

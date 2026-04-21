@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cemc6uu4rxiw7"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_fakes"]
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_fakes")]
+traits = 4102
+display_name = "Carl"

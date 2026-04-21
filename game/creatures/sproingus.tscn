@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cggj4nxt60a7i"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_d8ypj"]
+[ext_resource type="Texture2D" uid="uid://durvwdhdh3oh7" path="res://gfx_shared/creatures/smol_eepy_cat_sproingus.png" id="2_kd0vb"]
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_d8ypj")]
+traits = 81
+display_name = "Sproingus"
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = ExtResource("2_kd0vb")

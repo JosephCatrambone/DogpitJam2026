@@ -1,6 +1,6 @@
 class_name AIController extends Node
 
-var max_search_depth: int = 3
+var max_search_depth: int = 8
 
 ## Given the board state, current player, and available creatures, picks the creature to give to the opponent.
 ## Returns the INDEX of the creature in available.  Does not mutate board_state.

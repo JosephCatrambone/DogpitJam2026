@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bqrfpf7v8im5b"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_kmbrf"]
+[ext_resource type="Texture2D" uid="uid://c6fh6cbhddjop" path="res://gfx_shared/creatures.png" id="2_3fwls"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxn5d"]
+atlas = ExtResource("2_3fwls")
+region = Rect2(192, 64, 64, 64)
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_kmbrf")]
+traits = 105
+display_name = "Teef "
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_pxn5d")

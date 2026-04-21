@@ -1,0 +1,6 @@
+
+[gd_scene format=3 uid=""]
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_vv36b"]
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_vv36b")]
+traits = 86
+display_name = "Doof "

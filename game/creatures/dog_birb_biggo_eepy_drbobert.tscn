@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://8gd3bjhie0iu"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_dlkmj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0juow"]
+load_path = "res://.godot/imported/creatures.png-d54a219baa917de87b445b87fd7c8af8.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xf31"]
+atlas = SubResource("CompressedTexture2D_0juow")
+region = Rect2(0, 128, 64, 64)
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_dlkmj")]
+traits = 5654
+display_name = "Dr. Bobert "
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_1xf31")

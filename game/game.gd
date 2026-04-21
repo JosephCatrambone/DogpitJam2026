@@ -9,6 +9,8 @@ signal player_start(player_idx: int, creature_to_place: Creature)
 @onready var placer: Placer = %Placer
 @onready var action_display: RichTextLabel = %ActionLabel
 
+@export var creatures_packed: Array[PackedScene]
+
 var unplaced_creatures: PackedInt64Array = []
 var board_state: BoardState
 var ai_controllers: Array[AIController] = [null, AIController.new()]
@@ -16,46 +18,52 @@ var player_names: PackedStringArray = ["", ""]
 var current_player: int = 0
 
 func _ready() -> void:
-	pass
+	if len(self.creatures_packed) == 0:
+		self.creatures_packed = [
+			load("res://game/creatures/birb_biggo_cuddly_bogbirb.tscn"),
+			load("res://game/creatures/birb_snek_zoomy_angy_ketsaquatle.tscn"),
+			load("res://game/creatures/cat_birb_biggo_eepy_purr.tscn"),
+			load("res://game/creatures/cat_birb_biggo_zoomy_chungus.tscn"),
+			load("res://game/creatures/cat_birb_smol_eepy_chevronwithtekron.tscn"),
+			load("res://game/creatures/cat_birb_smol_zoomy_aaronspacemuseum.tscn"),
+			load("res://game/creatures/cat_dog_zoomy_leggy_neil.tscn"),
+			load("res://game/creatures/cat_eepy_chonk_chuggz.tscn"),
+			load("res://game/creatures/cat_snek_biggo_eepy_floop.tscn"),
+			load("res://game/creatures/cat_snek_biggo_zoomy_fleep.tscn"),
+			load("res://game/creatures/cat_snek_smol_eepy_teep.tscn"),
+			load("res://game/creatures/cat_snek_smol_zoomy_teef.tscn"),
+			load("res://game/creatures/cat_zoomy_smol_potat_angy_mphatecraft.tscn"),
+			load("res://game/creatures/dog_birb_biggo_eepy_drbobert.tscn"),
+			load("res://game/creatures/dog_birb_biggo_zoomy_aaronspacemuseum.tscn"),
+			load("res://game/creatures/dog_birb_cuddly_carl.tscn"),
+			load("res://game/creatures/dog_birb_smol_eepy_doof.tscn"),
+			load("res://game/creatures/dog_birb_smol_zoomy_princetriphazard.tscn"),
+			load("res://game/creatures/dog_snek_biggo_eepy_doop.tscn"),
+			load("res://game/creatures/dog_snek_biggo_zoomy_siremixatad.tscn"),
+			load("res://game/creatures/dog_snek_smol_eepy_toop.tscn"),
+			load("res://game/creatures/dog_snek_smol_zoomy_fleef.tscn"),
+		]
 
 func init_scene(data: Variant):
-	if data == null:
-		pass
+	ai_controllers[1].max_search_depth = 10
+	if data != null:
+		if "ai_difficulty_1" in data:
+			self.ai_controllers[0] = AIController.new()
+			self.ai_controllers[0].max_search_depth = data["ai_difficulty_1"]
+		if "ai_difficulty_2" in data:
+			self.ai_controllers[1] = AIController.new()
+			self.ai_controllers[1].max_search_depth = data["ai_difficulty_2"]
 	# It seems like sometimes this signal just doesn't get triggered, so we should run it in the process method.
 	self.single_cycle_finished.connect(self.run_game_loop)
 
 func start_scene():
 	self.board_state = BoardState.new(4, 4)
 	self.placer.initialize_board(4, 4)
-	self.picker.initialize_creatures([
-		preload("res://game/creatures/smidge.tscn").instantiate(), 
-		preload("res://game/creatures/sproingus.tscn").instantiate(), 
-		preload("res://game/creatures/chuggz.tscn").instantiate(), 
-		preload("res://game/creatures/neil.tscn").instantiate(), 
-		preload("res://game/creatures/carl.tscn").instantiate(), 
-		preload("res://game/creatures/feetfeet.tscn").instantiate(), 
-		
-		preload("res://game/creatures/smidge.tscn").instantiate(), 
-		preload("res://game/creatures/sproingus.tscn").instantiate(), 
-		preload("res://game/creatures/chuggz.tscn").instantiate(), 
-		preload("res://game/creatures/neil.tscn").instantiate(), 
-		preload("res://game/creatures/carl.tscn").instantiate(), 
-		preload("res://game/creatures/feetfeet.tscn").instantiate(), 
-		
-		preload("res://game/creatures/smidge.tscn").instantiate(), 
-		preload("res://game/creatures/sproingus.tscn").instantiate(), 
-		preload("res://game/creatures/chuggz.tscn").instantiate(), 
-		preload("res://game/creatures/neil.tscn").instantiate(), 
-		preload("res://game/creatures/carl.tscn").instantiate(), 
-		preload("res://game/creatures/feetfeet.tscn").instantiate(), 
-		
-		preload("res://game/creatures/smidge.tscn").instantiate(), 
-		preload("res://game/creatures/sproingus.tscn").instantiate(), 
-		preload("res://game/creatures/chuggz.tscn").instantiate(), 
-		preload("res://game/creatures/neil.tscn").instantiate(), 
-		preload("res://game/creatures/carl.tscn").instantiate(), 
-		preload("res://game/creatures/feetfeet.tscn").instantiate(), 
-	])
+	var random_creatures = Math.shuffle(self.creatures_packed)
+	var creatures: Array[Creature] = []
+	for i in range(16):
+		creatures.append(random_creatures[i].instantiate())
+	self.picker.initialize_creatures(creatures)
 	self.run_game_loop()
 
 ## Checks if the game is over, raises the game_lost signal, and returns true. (Or false if not over)
@@ -92,7 +100,7 @@ func run_game_loop():
 	
 	# Place
 	self.action_display.clear()
-	self.action_display.append_text("Player %d: Find a place for %s\n Traits: %s" % [self.current_player+1, creature.display_name.capitalize(), creature.get_trait_bbtext()])
+	self.action_display.append_text("Player %d: Find a place for %s\n Traits: %s" % [self.current_player+1, creature.display_name, creature.get_trait_bbtext()])
 	self.placer.request_place(creature)
 	if self.ai_controllers[self.current_player] != null:
 		var place_pos = await self.ai_controllers[self.current_player].compute_place(self.current_player, self.board_state, self.picker.get_remaining_creatures(), creature)

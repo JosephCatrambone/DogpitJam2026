@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bd6a8jpdo3lh3"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_54o5t"]
+[ext_resource type="Texture2D" uid="uid://b3cc7vd68gh8o" path="res://gfx_shared/creatures/smol_angy_potat_cat_smidge.png" id="2_tc63a"]
+
+[node name="Creature" unique_id=1962625881 instance=ExtResource("1_54o5t")]
+traits = 2241
+display_name = "Smidge"
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = ExtResource("2_tc63a")

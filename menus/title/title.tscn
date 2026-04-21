@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c4i3jfk48vjsu"]
 
 [ext_resource type="Script" uid="uid://crltfpwd84pn3" path="res://menus/title/title.gd" id="1_662h8"]
+[ext_resource type="PackedScene" uid="uid://b4n2cdgn5gbk3" path="res://menus/settings/settings.tscn" id="2_0s0d2"]
 
 [node name="Title" type="Control" unique_id=1950565322]
 layout_mode = 3
@@ -11,7 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_662h8")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2031102453]
+[node name="MainMenu" type="VBoxContainer" parent="." unique_id=2031102453]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -25,22 +27,42 @@ offset_bottom = 68.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NewGame" type="Button" parent="VBoxContainer" unique_id=1608351844]
+[node name="NewGame" type="Button" parent="MainMenu" unique_id=1608351844]
 unique_name_in_owner = true
 layout_mode = 2
 text = "New Game"
 
-[node name="Settings" type="Button" parent="VBoxContainer" unique_id=2033598441]
+[node name="Settings" type="Button" parent="MainMenu" unique_id=2033598441]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
 
-[node name="Credits" type="Button" parent="VBoxContainer" unique_id=1290504857]
+[node name="Credits" type="Button" parent="MainMenu" unique_id=1290504857]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
-[node name="Quit" type="Button" parent="VBoxContainer" unique_id=368297064]
+[node name="Quit" type="Button" parent="MainMenu" unique_id=368297064]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
+
+[node name="CreditsMenu" type="VBoxContainer" parent="." unique_id=2099467892]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenu" parent="." unique_id=533882288 instance=ExtResource("2_0s0d2")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="BackButton" type="Button" parent="." unique_id=1130284548]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "< Back"

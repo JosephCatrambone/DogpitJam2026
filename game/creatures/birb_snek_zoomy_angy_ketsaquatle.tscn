@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://d0ep5nlcakhee"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_oqmnd"]
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_oqmnd")]
+traits = 3372
+display_name = "Ketsaquatle"

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://43oqqiiqcjfx"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_no86h"]
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_no86h")]
+traits = 1555
+display_name = "Wilbur"

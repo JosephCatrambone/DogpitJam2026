@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://boql60unbs4oy"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_42kbl"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mnd1b"]
+load_path = "res://.godot/imported/creatures.png-d54a219baa917de87b445b87fd7c8af8.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1aya"]
+atlas = SubResource("CompressedTexture2D_mnd1b")
+region = Rect2(0, 192, 64, 64)
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_42kbl")]
+traits = 1045
+display_name = "The Purrminator"
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_j1aya")

@@ -24,7 +24,6 @@ var traits: int
 
 @export var display_name: String
 @export var description: String
-@export var icon: Image
 
 @onready var display_img: TextureRect = %TextureRect
 @onready var name_label: Label = %NameTag

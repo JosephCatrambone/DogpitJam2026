@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cj8r1rhbfx8ru"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_t6ol2"]
+[ext_resource type="Texture2D" uid="uid://c6fh6cbhddjop" path="res://gfx_shared/creatures.png" id="2_63clm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_462bh"]
+atlas = ExtResource("2_63clm")
+region = Rect2(64, 128, 64, 64)
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_t6ol2")]
+traits = 1050
+display_name = "Doop "
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_462bh")

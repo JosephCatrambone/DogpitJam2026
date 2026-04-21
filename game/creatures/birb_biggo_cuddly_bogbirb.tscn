@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bfmk5fwsymh0m"]
+
+[ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_cvafr"]
+
+[node name="Creature" unique_id=272537118 instance=ExtResource("1_cvafr")]
+traits = 5780
+display_name = "Bogbirb"
