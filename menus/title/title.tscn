@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://c4i3jfk48vjsu"]
 
 [ext_resource type="Script" uid="uid://crltfpwd84pn3" path="res://menus/title/title.gd" id="1_662h8"]
+[ext_resource type="Theme" uid="uid://cnda18fdwukt2" path="res://gfx_shared/title_theme.tres" id="1_dus5x"]
 [ext_resource type="PackedScene" uid="uid://b4n2cdgn5gbk3" path="res://menus/settings/settings.tscn" id="2_0s0d2"]
+[ext_resource type="Texture2D" uid="uid://7qqeruxaj35w" path="res://gfx_shared/title.png" id="3_7edc8"]
 
 [node name="Title" type="Control" unique_id=1950565322]
 layout_mode = 3
@@ -10,7 +12,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_dus5x")
 script = ExtResource("1_662h8")
+
+[node name="TitleBackdrop" type="TextureRect" parent="." unique_id=2071245829]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_7edc8")
+
+[node name="Title" type="Label" parent="." unique_id=246250080]
+layout_mode = 1
+offset_left = 63.0
+offset_top = 59.0
+offset_right = 567.0
+offset_bottom = 117.0
+text = "Little Shelter of Wonders"
 
 [node name="MainMenu" type="VBoxContainer" parent="." unique_id=2031102453]
 unique_name_in_owner = true
@@ -20,12 +40,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.5
-offset_top = -68.0
-offset_right = 46.5
-offset_bottom = 68.0
+offset_left = -466.0
+offset_top = 68.0
+offset_right = -366.0
+offset_bottom = 204.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="HowToPlay" type="Button" parent="MainMenu" unique_id=1446356472]
+unique_name_in_owner = true
+layout_mode = 2
+text = "How to Play"
 
 [node name="NewGame" type="Button" parent="MainMenu" unique_id=1608351844]
 unique_name_in_owner = true
@@ -34,6 +59,7 @@ text = "New Game"
 
 [node name="Settings" type="Button" parent="MainMenu" unique_id=2033598441]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Settings"
 
@@ -47,14 +73,129 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
-[node name="CreditsMenu" type="VBoxContainer" parent="." unique_id=2099467892]
+[node name="HowToPlayMenu" type="Panel" parent="." unique_id=1159179463]
 unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(640, 640)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -320.0
+offset_right = 320.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="HowToPlayMenu" unique_id=2043680023]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 58.0
+text = "How to Play:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HowToPlayMenu" unique_id=1013812222]
+layout_mode = 0
+offset_top = 62.0
+offset_right = 640.0
+offset_bottom = 292.0
+bbcode_enabled = true
+text = "
+Players take turns.
+
+On your turn, place a creature on the board.
+
+If any row, column, or diagonal contains all the same traits (all smol, all cat, all zoomy, etc), you lose.
+
+After you have placed the creature, if you have not lost, select a creature for your opponent to place.
+"
+fit_content = true
+
+[node name="GameMenu" type="PanelContainer" parent="." unique_id=1242930264]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxLayout" type="VBoxContainer" parent="GameMenu" unique_id=158761572]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="StoryGame" type="Button" parent="GameMenu/VBoxLayout" unique_id=1169886388]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Story Mode"
+
+[node name="HumanVsHuman" type="Button" parent="GameMenu/VBoxLayout" unique_id=50950373]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Human vs Human (Local)"
+
+[node name="HumanVsComputerEasy" type="Button" parent="GameMenu/VBoxLayout" unique_id=1107790169]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Human vs Computer (Easy)"
+
+[node name="HumanVsComputerMedium" type="Button" parent="GameMenu/VBoxLayout" unique_id=270082675]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Human vs Computer (Medium)"
+
+[node name="HumanVsComputerHard" type="Button" parent="GameMenu/VBoxLayout" unique_id=60252671]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Human vs Computer (Hard)"
+
+[node name="CreditsMenu" type="PanelContainer" parent="." unique_id=1006362504]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(480, 480)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CreditsMenu" unique_id=406199999]
+layout_mode = 2
+bbcode_enabled = true
+text = "Thank You:
+
+Blaise Muller - Inventor of Quarto, 
+whose mechanic was shamelessly stolen for this game.
+
+Team Dogpit - Hosts of my favorite ongoing jam. 
+This is not an appeal to the judges.
+
+Godot Engine Developers - For this engine.
+And for making an engine whose UI toolkit does not cause dispair.
+
+And thank YOU for playing!"
+fit_content = true
+horizontal_alignment = 1
 
 [node name="SettingsMenu" parent="." unique_id=533882288 instance=ExtResource("2_0s0d2")]
 unique_name_in_owner = true
@@ -62,7 +203,14 @@ layout_mode = 1
 
 [node name="BackButton" type="Button" parent="." unique_id=1130284548]
 unique_name_in_owner = true
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -47.0
+offset_right = 75.0
+offset_bottom = -16.0
+grow_vertical = 0
 text = "< Back"

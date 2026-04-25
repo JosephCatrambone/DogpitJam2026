@@ -13,29 +13,29 @@ signal player_start(player_idx: int, creature_to_place: Creature)
 
 var unplaced_creatures: PackedInt64Array = []
 var board_state: BoardState
-var ai_controllers: Array[AIController] = [null, AIController.new()]
+var ai_controllers: Array[AIController] = [null, null]
 var player_names: PackedStringArray = ["", ""]
 var current_player: int = 0
+var next_story_scene: String  # If set, switch to this sequence.  Pass {"sequence": this}.
 
 func _ready() -> void:
 	if len(self.creatures_packed) == 0:
 		self.creatures_packed = [
-			load("res://game/creatures/birb_biggo_cuddly_bogbirb.tscn"),
-			load("res://game/creatures/birb_snek_zoomy_angy_ketsaquatle.tscn"),
+			#load("res://game/creatures/birb_biggo_cuddly_bogbirb.tscn"),
+			#load("res://game/creatures/birb_snek_zoomy_angy_ketsaquatle.tscn"),
 			load("res://game/creatures/cat_birb_biggo_eepy_purr.tscn"),
 			load("res://game/creatures/cat_birb_biggo_zoomy_chungus.tscn"),
-			load("res://game/creatures/cat_birb_smol_eepy_chevronwithtekron.tscn"),
+			load("res://game/creatures/cat_birb_smol_eepy_nugget.tscn"),
 			load("res://game/creatures/cat_birb_smol_zoomy_aaronspacemuseum.tscn"),
-			load("res://game/creatures/cat_dog_zoomy_leggy_neil.tscn"),
-			load("res://game/creatures/cat_eepy_chonk_chuggz.tscn"),
+			#load("res://game/creatures/cat_dog_zoomy_leggy_neil.tscn"),
+			#load("res://game/creatures/cat_eepy_chonk_chuggz.tscn"),
 			load("res://game/creatures/cat_snek_biggo_eepy_floop.tscn"),
 			load("res://game/creatures/cat_snek_biggo_zoomy_fleep.tscn"),
-			load("res://game/creatures/cat_snek_smol_eepy_teep.tscn"),
+			load("res://game/creatures/cat_snek_smol_eepy_fluffo.tscn"),
 			load("res://game/creatures/cat_snek_smol_zoomy_teef.tscn"),
-			load("res://game/creatures/cat_zoomy_smol_potat_angy_mphatecraft.tscn"),
+			#load("res://game/creatures/cat_zoomy_smol_potat_angy_mphatecraft.tscn"),
 			load("res://game/creatures/dog_birb_biggo_eepy_drbobert.tscn"),
-			load("res://game/creatures/dog_birb_biggo_zoomy_aaronspacemuseum.tscn"),
-			load("res://game/creatures/dog_birb_cuddly_carl.tscn"),
+			load("res://game/creatures/dog_birb_biggo_zoomy_keith.tscn"),
 			load("res://game/creatures/dog_birb_smol_eepy_doof.tscn"),
 			load("res://game/creatures/dog_birb_smol_zoomy_princetriphazard.tscn"),
 			load("res://game/creatures/dog_snek_biggo_eepy_doop.tscn"),
@@ -45,7 +45,6 @@ func _ready() -> void:
 		]
 
 func init_scene(data: Variant):
-	ai_controllers[1].max_search_depth = 10
 	if data != null:
 		if "ai_difficulty_1" in data:
 			self.ai_controllers[0] = AIController.new()
@@ -53,8 +52,9 @@ func init_scene(data: Variant):
 		if "ai_difficulty_2" in data:
 			self.ai_controllers[1] = AIController.new()
 			self.ai_controllers[1].max_search_depth = data["ai_difficulty_2"]
-	# It seems like sometimes this signal just doesn't get triggered, so we should run it in the process method.
+	# It seems like sometimes this signal just doesn't get triggered?
 	self.single_cycle_finished.connect(self.run_game_loop)
+	self.game_over.connect(self._advance_scene)
 
 func start_scene():
 	self.board_state = BoardState.new(4, 4)
@@ -117,6 +117,13 @@ func run_game_loop():
 	# This also triggers the next round of async pick and place, so don't remove it.
 	# We can't just call self.run because we'd hit the stack limit.
 	self.single_cycle_finished.emit()
+
+func _advance_scene(player_idx: int, row_idx: int, col_idx: int, diagonal_idx: int, creature_trait: int) -> void:
+	var t = get_tree().create_timer(2.0)
+	if self.next_story_scene:
+		t.timeout.connect(SceneManager.swap_scenes.bind("res://cutscene/cutscene.tscn", {"sequence": self.next_story_scene}))
+	else:
+		t.timeout.connect(SceneManager.swap_scenes.bind("res://menus/title/title.tscn"))
 
 func _process(delta: float) -> void:
 	#self.debug_count = (self.debug_count+1)%1000

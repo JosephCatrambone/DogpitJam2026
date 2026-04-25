@@ -4,10 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://2dr0e7ua2bo1" path="res://gfx_shared/creatures/eepy_cat_chonk_chuggz.png" id="2_vy643"]
 
 [node name="Creature" unique_id=272537118 instance=ExtResource("1_cxopk")]
-offset_left = -32.0
-offset_top = -43.5
-offset_right = 32.0
-offset_bottom = 43.5
 traits = 529
 display_name = "Chuggz"
 

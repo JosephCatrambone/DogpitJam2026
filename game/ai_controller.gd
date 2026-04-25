@@ -25,7 +25,6 @@ func compute_place(current: int, board_state: BoardState, available: Array[Creat
 
 func _compute_pick(current_player: int, board_state: BoardState, available: PackedInt64Array, max_depth: int):
 	# Returns the index of the creature in available and the score, given the current_player is picking.  +1 means a win for current. -1 means a loss for current.
-	# TODO: Really implement, instead of picking one at random.
 	var best_index = 0
 	var best_score = 1.0  # A win for us.
 	for i in range(len(available)):
@@ -33,10 +32,12 @@ func _compute_pick(current_player: int, board_state: BoardState, available: Pack
 		available.remove_at(i)
 		var x_y_score = self._compute_place((current_player+1)%2, t, board_state, available, max_depth-1)
 		available.insert(i, t)  # Return it to the position.
-		if x_y_score[2] < best_score:  # Our opponent is playing, so minimize.
+		if x_y_score[2] < best_score:  # Our opponent is playing, so minimize. If they lose, that's the best one.
 			best_index = i
 			best_score = x_y_score[2]
-	return [best_index, best_score]
+			if best_score == -1.0:
+				return [i, 1.0]
+	return [best_index, -best_score]
 
 func _compute_place(current_player: int, trait_to_place: int, board_state: BoardState, available: PackedInt64Array, max_depth: int):
 	# Returns the x,y,score of the best place to put the provided 'to_place'. +1 score means a win for current_player. -1 means loss.
@@ -75,6 +76,7 @@ func _compute_place(current_player: int, trait_to_place: int, board_state: Board
 		# Place the item and get the best pick.
 		board_state.set_traits_xy(p.x, p.y, trait_to_place)
 		var pick_and_score = self._compute_pick(current_player, board_state, available, max_depth-1)
+		board_state.set_traits_xy(p.x, p.y, 0)  # CLEAR THE PLACEMENT!
 		if pick_and_score[1] > best_score:
 			best_score = pick_and_score[1]
 			best_pos = p

@@ -1,6 +1,17 @@
+[gd_scene format=3 uid="uid://enj6581oec3g"]
 
-[gd_scene format=3 uid=""]
 [ext_resource type="PackedScene" uid="uid://dcpb317i05c4d" path="res://game/creature.tscn" id="1_stes5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ovxj7"]
+load_path = "res://.godot/imported/creatures.png-d54a219baa917de87b445b87fd7c8af8.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rpip"]
+atlas = SubResource("CompressedTexture2D_ovxj7")
+region = Rect2(192, 128, 64, 64)
+
 [node name="Creature" unique_id=272537118 instance=ExtResource("1_stes5")]
 traits = 90
 display_name = "Toop "
+
+[node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
+texture = SubResource("AtlasTexture_7rpip")

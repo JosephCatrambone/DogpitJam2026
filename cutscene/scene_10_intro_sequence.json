@@ -106,9 +106,19 @@
 			"prompt": "Uh...",
 			"options": {
 				"Why don't we just keep them farther apart?": "farther_apart",
-				"Oh.  Okay.": "explain_again"
+				"Oh.  Okay.": "cascade_okay"
 			},
 			"next": "",
+			"on_enter": "",
+			"minigame": {}
+		},
+		"cascade_okay": {
+			"background": "office",
+			"actors": ["host"],
+			"text": "[host]Alright. No more time to waste.  Let's get these critters into their homes.\n",
+			"prompt": "",
+			"options": {},
+			"next": "get_sheltered",
 			"on_enter": "",
 			"minigame": {}
 		},
@@ -140,7 +150,7 @@
 		"but_the_cascade": {
 			"background": "office",
 			"actors": ["host"],
-			"text": "[host]Hey, I'm guessing nobody told you this, but just in case you need to hear it:\nShut up.\nLet's get these animals sheltered.",
+			"text": "[host]Hey, did you know shutting up is free!\nLet's get these animals sheltered.",
 			"prompt": "",
 			"options": {
 			},
@@ -158,7 +168,7 @@
 			},
 			"next": "",
 			"on_enter": "",
-			"minigame": {"ai_difficulty_2": 5}
+			"minigame": {"ai_difficulty_2": 2}
 		}
 	},
 	"assets": {

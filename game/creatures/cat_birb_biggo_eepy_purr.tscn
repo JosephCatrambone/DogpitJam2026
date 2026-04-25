@@ -11,7 +11,7 @@ region = Rect2(0, 192, 64, 64)
 
 [node name="Creature" unique_id=272537118 instance=ExtResource("1_42kbl")]
 traits = 1045
-display_name = "The Purrminator"
+display_name = "Purrl"
 
 [node name="TextureRect" parent="VBoxContainer" parent_id_path=PackedInt32Array(337917811) index="0" unique_id=1866908065]
 texture = SubResource("AtlasTexture_j1aya")
